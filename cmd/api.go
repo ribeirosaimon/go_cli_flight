@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"log"
 	"os/exec"
 )
 
@@ -15,14 +16,13 @@ var apiCmd = &cobra.Command{
 
 //https://github.com/docker/compose/blob/9d73cc88ccfafbd3cb1bb83287f9e9e2d686d393/cmd/compose/up.go#L111
 
-func apiCobraCommand(cobraCommand *cobra.Command, args []string) {
+func apiCobraCommand(cmdCobra *cobra.Command, args []string) {
 
-	cmd, err := exec.Command("/bin/bash", "docker-compose", "up").Output()
+	out, err := exec.Command("docker-compose", "up", "-d").Output()
+	fmt.Println(string(out))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(cmd)
-
 }
 func init() {
 	rootCmd.AddCommand(apiCmd)
